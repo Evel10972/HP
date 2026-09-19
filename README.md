@@ -20,14 +20,17 @@ node server.mjs
 
 - `index.html`：文章、リンク、セクション、画像の代替テキスト
 - `style.css`：色、文字、余白、レスポンシブ表示、演出の見た目
-- `script.js`：メニュー、出現アニメーション、スクロール連動のカード切り替え
-- `assets/`：ヒーローと作品画像。自分の作品に差し替えてください
+- `script.js`：メニュー、背景画像の横スクロール、スクロール連動のカード切り替え
+- `assets/`：背景に使う画像。対応形式は PNG、JPEG、WebP、GIF、AVIF です。`node server.mjs` では追加した画像が次の読み込みから自動で背景のローテーションに加わります
+- `assets-list.js`：HTMLを直接開く場合や静的ホスティングで使う画像一覧。画像の追加・削除後は `node update-assets-list.mjs` で更新します
+- `assets/thumbs/`：背景表示用の縮小画像。新しい画像を追加した後は、Pillow が使える Python で `python prepare-thumbnails.py` を実行すると生成できます。縮小画像がない場合は元画像を表示します
+- `script.js` の `illustrationFiles`：Illustration で紹介する5枚のファイル名を配列で指定します。空の間は名前順の先頭5枚を仮表示します
 
-特にギャラリーは `gallery-section` の高さがスクロール演出の長さ、`script.js` の `progress` が進行度です。各カードは `translate3d`・`rotate`・`scale` で重なって切り替わります。
+ギャラリーは `gallery-section` の高さがスクロール演出の長さ、`script.js` の `progress` が進行度です。最初は「紹介」と書いた表紙が閉じており、めくると1枚目の作品が現れます。その後も右ページをめくって次の作品を表示し、前の作品は裏面に表示しません。
 
 ## 公開する場所
 
-静的サイトなので GitHub Pages、Cloudflare Pages、Netlify などにフォルダの内容をそのまま公開できます。独自ドメインを使う場合は公開先でドメインを接続します。実際の問い合わせ先に合わせて `mailto:hello@example.com` を変更してください。
+画像一覧は `server.mjs` の `/api/assets` から取得します。HTMLを直接開く場合や GitHub Pages などの静的ホスティングでは `assets-list.js` を使用します。公開前に `node update-assets-list.mjs` を実行してください。実際の問い合わせ先に合わせて `mailto:hello@example.com` を変更してください。
 
 ## メモ
 

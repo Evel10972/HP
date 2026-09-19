@@ -5,54 +5,100 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#ffffff" />
     <meta name="description" content="スクロールで作品が重なる、イラストレーター向けポートフォリオのデモ。" />
-    <title>STROKE — Creative Portfolio Demo</title>
-    <link rel="preload" href="./assets/hero.png" as="image" />
+    <title>EvelのHP</title>
+    <link rel="icon" href="./assets/icon.png" type="image/png" />
     <link rel="stylesheet" href="./style.css" />
+    <script src="./assets-list.js" defer></script>
     <script src="./script.js" defer></script>
   </head>
   <body>
     <header class="site-header">
-      <a class="brand" href="#top" aria-label="STROKE トップへ"><span class="brand-mark">✳</span><span>STROKE<span class="brand-dot">.</span></span></a>
+      <a class="brand" href="#top" aria-label="EvelのHP トップへ"><img class="brand-mark" src="./assets/icon.png" alt="" /><span>EvelのHP<span class="brand-dot">.</span></span></a>
       <nav class="desktop-nav" aria-label="メインナビゲーション">
-        <a href="#about">About</a><a href="#illustration">Illustration</a><a href="#art">Art</a><a href="#service">Service</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <a href="#illustration">Illustration</a>
+        <a href="#service">Service</a>
       </nav>
-      <button class="menu-button" type="button" aria-expanded="false" aria-controls="mobile-menu"><span class="menu-label">Menu</span><span class="menu-icon" aria-hidden="true"><i></i><i></i></span></button>
+      <button class="menu-button" type="button" aria-expanded="false" aria-controls="mobile-menu">
+        <span class="menu-label">Menu</span>
+        <span class="menu-icon" aria-hidden="true">
+          <i></i><i></i></span></button>
     </header>
 
     <div class="menu-overlay" id="mobile-menu" aria-hidden="true">
-      <nav aria-label="モバイルナビゲーション"><a href="#about"><span>01</span>About</a><a href="#illustration"><span>02</span>Illustration</a><a href="#art"><span>03</span>Art</a><a href="#service"><span>04</span>Service</a></nav>
+      <nav aria-label="モバイルナビゲーション">
+        <a href="#about"><span>01</span>About</a>
+        <a href="#contact"><span>02</span>Contact</a>
+        <a href="#illustration"><span>03</span>Illustration</a>
+        <a href="#service"><span>04</span>Service</a></nav>
       <p>Scroll, explore, discover.</p>
     </div>
 
     <main>
       <section class="hero" id="top" aria-labelledby="hero-title">
-        <div class="hero-image" aria-hidden="true"></div>
+        <div class="hero-marquee" aria-hidden="true">
+        <div class="hero-marquee-track"></div></div>
         <div class="hero-shade" aria-hidden="true"></div>
-        <div class="hero-content"><p class="eyebrow hero-eyebrow">Creative portfolio / 2026</p><h1 id="hero-title"><span>One Stroke,</span><br /><span>One Story.</span></h1></div>
-        <a class="scroll-cue" href="#about"><span>Scroll to more</span><span class="scroll-line" aria-hidden="true"></span></a>
+        <div class="hero-content">
+          <p class="eyebrow hero-eyebrow">Portfolio</p>
+          <h1 id="hero-title">
+            <span>Evel</span><br />
+            <span>”いーべる”</span></h1></div>
+        <a class="scroll-cue" href="#about">
+          <span>Scroll to more</span>
+          <span class="scroll-line" aria-hidden="true"></span></a>
       </section>
 
       <section class="intro section-pad" id="about">
         <div class="section-number reveal">01 / About</div>
-        <div class="intro-main"><p class="eyebrow reveal">A world drawn one line at a time</p><h2 class="display reveal">絵から、<br /><em>物語が動き出す。</em></h2><p class="body-copy reveal">色と形、少しの遊び心を重ねながら、見る人の記憶に残るビジュアルをつくります。イラストレーション、キャラクター、アートワークを横断する架空のポートフォリオです。</p><a class="text-link reveal" href="#illustration">作品を見る <span aria-hidden="true">↗</span></a></div>
-        <div class="intro-aside reveal"><span class="asterisk" aria-hidden="true">✳</span><p>Every image begins<br />with a little curiosity.</p></div>
+        <div class="intro-main"><p class="eyebrow reveal">A world drawn one line at a time</p><h2 class="display reveal">Coolな絵から、<br /><em>Sexyな絵まで</em></h2><p class="body-copy reveal">シンプルな線と，豊かな表情にて，見る人の心に残るイラスト等の作品を製作いたします！</p><a class="text-link reveal" href="#illustration">Watch works <span aria-hidden="true">↗</span></a></div>
+        <div class="intro-aside reveal"><span class="asterisk" aria-hidden="true">✒</span><p>Please Commision!<br /></p></div>
       </section>
 
+      <section class="feature section-pad" id="contact">
+        <div class="section-number reveal">02 / Contact</div>
+          <div class="feature-grid">
+            <div class="feature-image reveal">
+              <img alt="作品画像" loading="lazy" /></div>
+          <div class="feature-text">
+            <p class="eyebrow reveal">Contact / Links</p>
+            次の一枚を一緒に。<br />
+            <h2 class="display reveal">作品やご依頼の<br /><em>お問い合わせ</em></h2>
+            <p class="body-copy reveal">作品の更新や制作のご相談は、こちらからどうぞ。</p>
+            <div class="contact-links reveal" aria-label="外部サービス">
+              <a href="https://x.com/" target="_blank" rel="noopener noreferrer"><img src="./assets/social/x.png" alt="" />X
+                <span aria-hidden="true">↗</span></a>
+              <a href="https://skeb.jp/" target="_blank" rel="noopener noreferrer"><img src="./assets/social/skeb.png" alt="" />Skeb
+                <span aria-hidden="true">↗</span></a>
+              <a href="https://www.fanbox.cc/" target="_blank" rel="noopener noreferrer"><img src="./assets/social/fanbox.png" alt="" />pixivFANBOX
+                <span aria-hidden="true">↗</span></a></div></div></div></section>
+
       <section class="gallery-section" id="illustration" aria-label="イラスト作品のスクロールギャラリー">
-        <div class="gallery-sticky"><div class="gallery-topline"><span>02 / Illustration</span><span class="gallery-counter"><b id="gallery-index">01</b> / 03</span></div>
-          <div class="gallery-stage" aria-live="off">
-            <figure class="art-card" data-card="0"><img src="./assets/illustration.png" alt="幾何学模様の街を駆け抜ける人物のイラスト" /><figcaption>Beyond the city <span>01 / 03</span></figcaption></figure>
-            <figure class="art-card" data-card="1"><img src="./assets/art.png" alt="青い鳥と色鮮やかな紙のコラージュ" /><figcaption>Blue flight <span>02 / 03</span></figcaption></figure>
-            <figure class="art-card" data-card="2"><img src="./assets/hero.png" alt="色彩の中で手を伸ばす人物のイラスト" /><figcaption>Open sky <span>03 / 03</span></figcaption></figure>
-          </div>
-          <div class="gallery-bottomline"><p>Scroll to explore the work</p><div class="progress-track"><span id="gallery-progress"></span></div></div>
+        <div class="gallery-sticky">
+          <div class="gallery-topline">
+            <span>03 / Illustration</span>
+            <span class="gallery-counter">
+              <b id="gallery-index">00</b> / 05</span></div>
+          <div class="gallery-stage" aria-live="off"></div>
+          <div class="gallery-bottomline">
+            <p>Scroll to explore the work</p>
+            <div class="progress-track">
+              <span id="gallery-progress"></span></div></div>
         </div>
       </section>
 
-      <section class="feature section-pad" id="art"><div class="section-number reveal">03 / Art</div><div class="feature-grid"><div class="feature-image reveal"><img src="./assets/art.png" alt="青い鳥を描いたコラージュアート" loading="lazy" /></div><div class="feature-text"><p class="eyebrow reveal">Experiment / Artworks</p><h2 class="display reveal">想像を、<br /><em>枠の外へ。</em></h2><p class="body-copy reveal">デジタルの鮮やかさと、手でつくる素材の温度。異なる表現を行き来しながら、新しい景色を探しています。</p><a class="text-link reveal" href="mailto:hello@example.com?subject=Artwork%20inquiry">作品について問い合わせる <span aria-hidden="true">↗</span></a></div></div></section>
 
-      <section class="service section-pad" id="service"><div class="section-number reveal">04 / Service</div><div class="service-content"><p class="eyebrow reveal">Create something together</p><h2 class="display reveal">次の一枚を、<br /><em>一緒に。</em></h2><p class="body-copy reveal">イラストレーション、アートディレクション、キャラクターデザインのご相談をお待ちしています。</p><a class="round-link reveal" href="mailto:hello@example.com?subject=Portfolio%20inquiry" aria-label="メールで相談する"><span>Get in touch</span><span aria-hidden="true">↗</span></a></div></section>
+      <section class="service section-pad" id="service">
+        <div class="section-number reveal">04 / Service</div>
+        <div class="service-content">
+          <p class="eyebrow reveal">Create something together</p>
+          <h2 class="display reveal">次の一枚を、<br /><em>一緒に。</em></h2>
+          <p class="body-copy reveal">イラストレーション、アートディレクション、キャラクターデザインのご相談をお待ちしています。</p>
+          <a class="round-link reveal" href="mailto:hello@example.com?subject=Portfolio%20inquiry" aria-label="メールで相談する">
+            <span>Get in touch</span>
+            <span aria-hidden="true">↗</span></a></div></section>
     </main>
-    <footer class="footer"><a class="brand" href="#top"><span class="brand-mark">✳</span><span>STROKE<span class="brand-dot">.</span></span></a><p>Demo portfolio. Images are original generated artwork.</p><a href="#top">Back to top ↑</a></footer>
+    <footer class="footer"><a class="brand" href="#top"><img class="brand-mark" src="./assets/icon.png" alt="" /><span>EvelのHP<span class="brand-dot">.</span></span></a><p>Demo portfolio. Images are original generated artwork.</p><a href="#top">Back to top ↑</a></footer>
   </body>
 </html>

@@ -25,11 +25,100 @@ const revealObserver = new IntersectionObserver(entries => {
 document.querySelectorAll('.reveal').forEach(element => revealObserver.observe(element));
 
 const gallery = document.querySelector('.gallery-section');
-const cards = [...document.querySelectorAll('.art-card')];
+const galleryStage = document.querySelector('.gallery-stage');
+let cards = [];
 const counter = document.querySelector('#gallery-index');
 const progressBar = document.querySelector('#gallery-progress');
-const heroImage = document.querySelector('.hero-image');
+const heroTrack = document.querySelector('.hero-marquee-track');
 let ticking = false;
+
+// ファイル名を5つ指定すると、その5枚をIllustrationに表示します。
+// 空の間はassets内の先頭5枚を仮表示します。
+const illustrationFiles = [];
+const imageUrl = name => `./assets/${encodeURIComponent(name)}`;
+const thumbnailUrl = name => `./assets/thumbs/${encodeURIComponent(name.replace(/\.[^.]+$/, '.webp'))}`;
+
+function renderHero(files) {
+  const screenWidth = window.screen?.availWidth || window.innerWidth;
+  const cardWidth = Math.min(320, Math.max(220, (screenWidth - 7 * 18) / 6));
+  heroTrack.parentElement.style.setProperty('--card-width', `${Math.round(cardWidth)}px`);
+  const makeSet = () => {
+    const set = document.createElement('div');
+    set.className = 'hero-marquee-set';
+    files.forEach(name => {
+      const frame = document.createElement('div');
+      frame.className = 'hero-marquee-item';
+      const img = document.createElement('img');
+      img.src = thumbnailUrl(name);
+      img.alt = '';
+      img.decoding = 'async';
+      img.onerror = () => { img.onerror = null; img.src = imageUrl(name); };
+      frame.append(img);
+      set.append(frame);
+    });
+    return set;
+  };
+  heroTrack.replaceChildren(makeSet(), makeSet());
+  heroTrack.style.setProperty('--marquee-duration', `${Math.max(18, files.length * 2.5)}s`);
+}
+
+async function loadImages() {
+  try {
+    let files = window.assetFiles || [];
+    if (location.protocol !== 'file:') {
+      try {
+        const response = await fetch('./api/assets', { cache: 'no-store' });
+        if (response.ok) files = await response.json();
+      } catch (error) {
+        console.warn('画像一覧APIを利用できないため保存済みの一覧を使用します', error);
+      }
+    }
+    if (!files.length) return;
+
+    renderHero(files);
+
+    const selected = illustrationFiles.length
+      ? illustrationFiles.filter(name => files.includes(name)).slice(0, 5)
+      : files.slice(0, 5);
+    document.querySelector('.gallery-counter').lastChild.textContent = ` / ${String(selected.length).padStart(2, '0')}`;
+    galleryStage.replaceChildren();
+    [null, ...selected].forEach((name, index) => {
+      const card = document.createElement('figure');
+      card.className = index === 0 ? 'art-card book-cover' : 'art-card';
+      const front = document.createElement('div');
+      front.className = 'page-face page-front';
+      if (index === 0) {
+        const title = document.createElement('span');
+        title.className = 'book-cover-title';
+        title.textContent = '紹介';
+        front.append(title);
+      } else {
+        const img = document.createElement('img');
+        img.src = imageUrl(name);
+        img.alt = `イラスト作品 ${index}`;
+        const caption = document.createElement('div');
+        caption.className = 'page-caption';
+        caption.append(document.createTextNode(name.replace(/\.[^.]+$/, ' ')));
+        const number = document.createElement('span');
+        number.textContent = `${String(index).padStart(2, '0')} / ${String(selected.length).padStart(2, '0')}`;
+        caption.append(number);
+        front.append(img, caption);
+      }
+      const back = document.createElement('div');
+      back.className = 'page-face page-back';
+      card.append(front, back);
+      galleryStage.append(card);
+    });
+    cards = [...galleryStage.children];
+    gallery.style.height = `${Math.max(3, cards.length + .6) * 100}vh`;
+    const artImage = document.querySelector('.feature-image img');
+    artImage.src = imageUrl(files.find(name => !selected.includes(name)) || files[0]);
+    scheduleScroll();
+  } catch (error) {
+    console.error(error);
+  }
+}
+loadImages();
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 function updateScroll() {
@@ -39,27 +128,25 @@ function updateScroll() {
   const distance = Math.max(1, rect.height - window.innerHeight);
   const progress = clamp(-rect.top / distance, 0, 1);
   progressBar.style.width = `${progress * 100}%`;
-  const active = clamp(Math.floor(progress * 3 - .5), 0, 2);
-  counter.textContent = String(active + 1).padStart(2, '0');
+  const count = cards.length;
+  if (!count) return;
+  const active = clamp(Math.floor(progress * count + .5), 0, count - 1);
+  counter.textContent = String(active).padStart(2, '0');
+  galleryStage.classList.toggle('is-closed', progress <= .001);
 
   cards.forEach((card, index) => {
-    const start = index / 3;
-    const local = clamp((progress - start) * 3, 0, 1);
-    const entering = index === 0 ? 1 : local;
-    const nextStart = (index + 1) / 3;
-    const leaving = index === 2 ? 0 : clamp((progress - nextStart) * 3, 0, 1);
-    const offset = index === 0 ? 0 : (1 - entering) * 115;
-    const scale = 1 - leaving * .12;
-    const rotate = [-7, 5, -3][index] + entering * [5, -7, 3][index] - leaving * 8;
-    card.style.zIndex = String(index + 1);
-    card.style.transform = `translate3d(${(index - 1) * 10}px, ${offset - leaving * 45}vh, 0) rotate(${rotate}deg) scale(${scale})`;
-    card.style.opacity = String(index === 0 ? 1 : clamp(entering * 1.5, 0, 1));
-    card.style.filter = `brightness(${1 - leaving * .16})`;
+    if (reducedMotion.matches) {
+      card.style.zIndex = String(index === active ? count + 1 : count - index);
+      card.style.transform = 'rotateY(0deg)';
+      card.style.opacity = String(index === active ? 1 : 0);
+      return;
+    }
+    const turn = index === count - 1 ? 0 : clamp(progress * count - index, 0, 1);
+    card.style.zIndex = String(turn > 0 ? count + index : count - index);
+    card.style.transform = `rotateY(${-180 * turn}deg)`;
+    card.style.opacity = '1';
   });
 
-  if (!reducedMotion.matches) {
-    heroImage.style.transform = `translateY(${Math.min(window.scrollY * .22, 170)}px) scale(1.06)`;
-  }
 }
 function scheduleScroll() { if (!ticking) { ticking = true; requestAnimationFrame(updateScroll); } }
 window.addEventListener('scroll', scheduleScroll, { passive: true });
