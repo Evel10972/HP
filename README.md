@@ -16,6 +16,8 @@ node server.mjs
 
 ブラウザーで `http://localhost:8000/` を開きます。Node.js がない場合は Python の `python -m http.server 8000` や VS Code の Live Server 等でも動きます。
 
+ヘッダーの `English` ボタンで英語版に切り替えられます。英語版では `日本語` ボタンで戻れます。選んだ言語はブラウザーに保存されます。英語の文章は `script.js` の `translatedText` で編集できます。
+
 ## 変更する場所
 
 - `index.html`：文章、リンク、セクション、画像の代替テキスト
@@ -30,7 +32,7 @@ node server.mjs
 
 ## 公開する場所
 
-画像一覧は `server.mjs` の `/api/assets` から取得します。HTMLを直接開く場合や GitHub Pages などの静的ホスティングでは `assets-list.js` を使用します。公開前に `node update-assets-list.mjs` を実行してください。実際の問い合わせ先に合わせて `mailto:hello@example.com` を変更してください。
+画像一覧は `server.mjs` の `/api/assets` から取得します。HTMLを直接開く場合や GitHub Pages などの静的ホスティングでは `assets-list.js` を使用します。公開前に `node update-assets-list.mjs` を実行してください。Contact の各リンク先と Service の料金・注意書きは、公開前に確認してください。
 
 ## メモ
 

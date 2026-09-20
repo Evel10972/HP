@@ -1,6 +1,64 @@
 const menuButton = document.querySelector('.menu-button');
 const menuOverlay = document.querySelector('.menu-overlay');
 const header = document.querySelector('.site-header');
+const languageButton = document.querySelector('.language-toggle');
+
+const translatedText = [
+  ['.site-header .brand > span:last-child', 'Evel’s Portfolio<span class="brand-dot">.</span>', true],
+  ['.footer .brand > span:last-child', 'Evel’s Portfolio<span class="brand-dot">.</span>', true],
+  ['#hero-title span:last-child', 'Illustration & Art'],
+  ['.intro .display', 'From cool art,<br /><em>to sexy art.</em>', true],
+  ['.intro .body-copy', 'With simple lines and expressive characters, I create illustrations that stay with you.'],
+  ['.intro .text-link', 'View works <span aria-hidden="true">↗</span>', true],
+  ['.intro-aside p', 'Commissions welcome!'],
+  ['.contact-lead', 'Let’s create the next piece together.'],
+  ['#contact .display', 'Questions about work<br /><em>or commissions</em>', true],
+  ['#contact .body-copy', 'For new artwork and commission inquiries, find me through the links below.'],
+  ['#service .price-heading', 'Base Rates'],
+  ['.price-character', 'One full character'],
+  ['.price-character-cost', 'JPY 10,000'],
+  ['.price-half', 'One half-body character'],
+  ['.price-half-cost', 'JPY 7,000'],
+  ['.price-other', 'Comics or animation'],
+  ['.price-other-cost', 'Price on request'],
+  ['.pricing-note', 'Please send detailed instructions, including the setting or situation you have in mind.'],
+  ['.payment-notice h3', 'Payment and request policy'],
+  ['.payment-notice p', 'For requests made by DM, payment is accepted through PayPal only. If payment through a manager or another party outside the DM is requested, if I am asked to pay an additional amount myself, or if any other unnecessary action is demanded, I will end the discussion immediately due to fraud concerns.']
+].map(([selector, english, html]) => {
+  const element = document.querySelector(selector);
+  return { element, english, html, japanese: html ? element.innerHTML : element.textContent };
+});
+const japaneseTitle = document.title;
+const description = document.querySelector('meta[name="description"]');
+const japaneseDescription = description.content;
+let currentLanguage = 'ja';
+
+function setLanguage(language) {
+  currentLanguage = language;
+  document.documentElement.lang = language;
+  translatedText.forEach(({ element, english, japanese, html }) => {
+    if (html) element.innerHTML = language === 'en' ? english : japanese;
+    else element.textContent = language === 'en' ? english : japanese;
+  });
+  document.title = language === 'en' ? 'Evel Portfolio' : japaneseTitle;
+  description.content = language === 'en'
+    ? 'Evel’s illustration portfolio, contact links, and selected artwork.'
+    : japaneseDescription;
+  languageButton.textContent = language === 'en' ? '日本語' : 'English';
+  languageButton.setAttribute('aria-label', language === 'en' ? '日本語に切り替える' : 'Switch to English');
+  document.querySelector('.site-header .brand').setAttribute('aria-label', language === 'en' ? 'Back to Evel Portfolio home' : 'EvelのHP トップへ');
+  document.querySelector('.desktop-nav').setAttribute('aria-label', language === 'en' ? 'Main navigation' : 'メインナビゲーション');
+  document.querySelector('.menu-overlay nav').setAttribute('aria-label', language === 'en' ? 'Mobile navigation' : 'モバイルナビゲーション');
+  document.querySelector('.gallery-section').setAttribute('aria-label', language === 'en' ? 'Illustration gallery: scroll to turn pages' : 'イラスト作品のスクロールギャラリー');
+  document.querySelector('.contact-links').setAttribute('aria-label', language === 'en' ? 'External services' : '外部サービス');
+  document.querySelector('.feature-image img').alt = language === 'en' ? 'Artwork' : '作品画像';
+  document.querySelectorAll('.book-cover-title').forEach(title => { title.textContent = language === 'en' ? 'Introduction' : '紹介'; });
+  document.querySelectorAll('.art-card .page-front img').forEach((img, index) => { img.alt = language === 'en' ? `Illustration ${index + 1}` : `イラスト作品 ${index + 1}`; });
+  try { localStorage.setItem('site-language', language); } catch { /* Storage may be unavailable for local files. */ }
+}
+
+languageButton.addEventListener('click', () => setLanguage(currentLanguage === 'ja' ? 'en' : 'ja'));
+try { if (localStorage.getItem('site-language') === 'en') setLanguage('en'); } catch { /* Keep Japanese. */ }
 
 function setMenu(open) {
   document.body.classList.toggle('menu-open', open);
@@ -90,15 +148,14 @@ async function loadImages() {
       if (index === 0) {
         const title = document.createElement('span');
         title.className = 'book-cover-title';
-        title.textContent = '紹介';
+        title.textContent = currentLanguage === 'en' ? 'Introduction' : '紹介';
         front.append(title);
       } else {
         const img = document.createElement('img');
         img.src = imageUrl(name);
-        img.alt = `イラスト作品 ${index}`;
+        img.alt = currentLanguage === 'en' ? `Illustration ${index}` : `イラスト作品 ${index}`;
         const caption = document.createElement('div');
         caption.className = 'page-caption';
-        caption.append(document.createTextNode(name.replace(/\.[^.]+$/, ' ')));
         const number = document.createElement('span');
         number.textContent = `${String(index).padStart(2, '0')} / ${String(selected.length).padStart(2, '0')}`;
         caption.append(number);

@@ -20,10 +20,13 @@
         <a href="#illustration">Illustration</a>
         <a href="#service">Service</a>
       </nav>
-      <button class="menu-button" type="button" aria-expanded="false" aria-controls="mobile-menu">
-        <span class="menu-label">Menu</span>
-        <span class="menu-icon" aria-hidden="true">
-          <i></i><i></i></span></button>
+      <div class="header-actions">
+        <button class="language-toggle" type="button" aria-label="Switch to English">English</button>
+        <button class="menu-button" type="button" aria-expanded="false" aria-controls="mobile-menu">
+          <span class="menu-label">Menu</span>
+          <span class="menu-icon" aria-hidden="true">
+            <i></i><i></i></span></button>
+      </div>
     </header>
 
     <div class="menu-overlay" id="mobile-menu" aria-hidden="true">
@@ -63,7 +66,7 @@
               <img alt="作品画像" loading="lazy" /></div>
           <div class="feature-text">
             <p class="eyebrow reveal">Contact / Links</p>
-            次の一枚を一緒に。<br />
+            <p class="contact-lead">次の一枚を一緒に。</p>
             <h2 class="display reveal">作品やご依頼の<br /><em>お問い合わせ</em></h2>
             <p class="body-copy reveal">作品の更新や制作のご相談は、こちらからどうぞ。</p>
             <div class="contact-links reveal" aria-label="外部サービス">
@@ -92,12 +95,19 @@
       <section class="service section-pad" id="service">
         <div class="section-number reveal">04 / Service</div>
         <div class="service-content">
-          <p class="eyebrow reveal">Create something together</p>
-          <h2 class="display reveal">次の一枚を、<br /><em>一緒に。</em></h2>
-          <p class="body-copy reveal">イラストレーション、アートディレクション、キャラクターデザインのご相談をお待ちしています。</p>
-          <a class="round-link reveal" href="mailto:hello@example.com?subject=Portfolio%20inquiry" aria-label="メールで相談する">
-            <span>Get in touch</span>
-            <span aria-hidden="true">↗</span></a></div></section>
+          <h2 class="display price-heading reveal">基本料金</h2>
+          <dl class="price-list reveal">
+            <dt class="price-character">キャラクター1体</dt><dd class="price-character-cost">10,000円</dd>
+            <dt class="price-half">半身キャラクター1体</dt><dd class="price-half-cost">7,000円</dd>
+            <dt class="price-other">漫画・アニメーション</dt><dd class="price-other-cost">要相談</dd>
+          </dl>
+          <p class="pricing-note reveal">ご依頼の際は、細かいオーダーやシチュエーションなどをお送りください。</p>
+          <div class="payment-notice reveal">
+            <h3>お支払い・ご依頼時の注意</h3>
+            <p>DMでのご依頼のお支払いはPayPalのみです。DM外でマネージャー等を経由した支払い、私からの追加支払い、その他不要な手続きを求められた場合は、詐欺への警戒から直ちに相談を打ち切ります。</p>
+          </div>
+        </div>
+      </section>
     </main>
     <footer class="footer"><a class="brand" href="#top"><img class="brand-mark" src="./assets/icon.png" alt="" /><span>EvelのHP<span class="brand-dot">.</span></span></a><p>Demo portfolio. Images are original generated artwork.</p><a href="#top">Back to top ↑</a></footer>
   </body>
