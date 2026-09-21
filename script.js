@@ -7,7 +7,7 @@ const translatedText = [
   ['.site-header .brand > span:last-child', 'Evel\'s HP<span class="brand-dot">.</span>', true],
   ['.footer .brand > span:last-child', 'Evel\'s HP<span class="brand-dot">.</span>', true],
   ['#hero-title .hero-subtitle', 'Illustration & Art'],
-  ['.hero-rights-note', 'I do not create illustrations without existing IP for commercial purposes.', true],
+  ['.hero-rights-note', 'I accept commissions involving existing IP only within the scope permitted by each rights holder\'s fan creation guidelines.', true],
   ['.intro .display', 'From cool art,<br /><em>to sexy art.</em>', true],
   ['.intro .body-copy', 'With simple lines and expressive characters, I create illustrations that stay with you.'],
   ['.intro .text-link', 'View works <span aria-hidden="true">↗</span>', true],
@@ -85,11 +85,11 @@ let ticking = false;
 // Illustration の5枚と、その順番に対応する権利元。
 const illustrationFiles = ['1.webp', '2.webp', '3.png', '4.png', '5.png'];
 const illustrationCredits = {
-  '1.webp': '© miHoYo',
+  '1.webp': '© COGNOSPHERE',
   '2.webp': '© CAPCOM',
   '3.png': '© CAPCOM',
-  '4.png': '© Yostar',
-  '5.png': '© miHoYo'
+  '4.png': '© NEXON Games & Yostar',
+  '5.png': '© COGNOSPHERE'
 };
 const imageUrl = name => `./assets/${encodeURIComponent(name)}`;
 const thumbnailUrl = name => `./assets/thumbs/${encodeURIComponent(name.replace(/\.[^.]+$/, '.webp'))}`;
