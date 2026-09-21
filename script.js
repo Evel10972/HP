@@ -6,12 +6,14 @@ const languageButton = document.querySelector('.language-toggle');
 const translatedText = [
   ['.site-header .brand > span:last-child', 'Evel\'s HP<span class="brand-dot">.</span>', true],
   ['.footer .brand > span:last-child', 'Evel\'s HP<span class="brand-dot">.</span>', true],
-  ['#hero-title span:last-child', 'Illustration & Art'],
+  ['#hero-title .hero-subtitle', 'Illustration & Art'],
+  ['.hero-rights-note', 'I do not create illustrations without existing IP for commercial purposes.', true],
   ['.intro .display', 'From cool art,<br /><em>to sexy art.</em>', true],
   ['.intro .body-copy', 'With simple lines and expressive characters, I create illustrations that stay with you.'],
   ['.intro .text-link', 'View works <span aria-hidden="true">↗</span>', true],
   ['.intro-aside p', 'Commissions welcome!'],
   ['.contact-lead', 'Let’s create the next piece together.'],
+  ['.contact-image-caption', 'Jade, my original character'],
   ['#contact .display', 'Questions about work<br /><em>or commissions</em>', true],
   ['#contact .body-copy', 'For new artwork and commission inquiries, find me through the links below.']
 ].map(([selector, english, html]) => {
@@ -41,7 +43,7 @@ function setLanguage(language) {
   document.querySelector('.menu-overlay nav').setAttribute('aria-label', language === 'en' ? 'Mobile navigation' : 'モバイルナビゲーション');
   document.querySelector('.gallery-section').setAttribute('aria-label', language === 'en' ? 'Illustration gallery: scroll to turn pages' : 'イラスト作品のスクロールギャラリー');
   document.querySelector('.contact-links').setAttribute('aria-label', language === 'en' ? 'External services' : '外部サービス');
-  document.querySelector('.feature-image img').alt = language === 'en' ? 'Artwork' : '作品画像';
+  document.querySelector('.feature-image img').alt = language === 'en' ? 'Jade, my original character' : 'オリジナルキャラクターのジェイド';
   document.querySelectorAll('.book-cover-title').forEach(title => { title.textContent = language === 'en' ? 'Introduction' : '紹介'; });
   document.querySelectorAll('.art-card .page-front img').forEach((img, index) => { img.alt = language === 'en' ? `Illustration ${index + 1}` : `イラスト作品 ${index + 1}`; });
   try { localStorage.setItem('site-language', language); } catch { /* Storage may be unavailable for local files. */ }
@@ -80,9 +82,15 @@ const progressBar = document.querySelector('#gallery-progress');
 const heroTrack = document.querySelector('.hero-marquee-track');
 let ticking = false;
 
-// ファイル名を5つ指定すると、その5枚をIllustrationに表示します。
-// 空の間はassets内の先頭5枚を仮表示します。
-const illustrationFiles = [];
+// Illustration の5枚と、その順番に対応する権利元。
+const illustrationFiles = ['1.webp', '2.webp', '3.png', '4.png', '5.png'];
+const illustrationCredits = {
+  '1.webp': '© miHoYo',
+  '2.webp': '© CAPCOM',
+  '3.png': '© CAPCOM',
+  '4.png': '© Yostar',
+  '5.png': '© miHoYo'
+};
 const imageUrl = name => `./assets/${encodeURIComponent(name)}`;
 const thumbnailUrl = name => `./assets/thumbs/${encodeURIComponent(name.replace(/\.[^.]+$/, '.webp'))}`;
 
@@ -146,9 +154,12 @@ async function loadImages() {
         img.alt = currentLanguage === 'en' ? `Illustration ${index}` : `イラスト作品 ${index}`;
         const caption = document.createElement('div');
         caption.className = 'page-caption';
+        const credit = document.createElement('span');
+        credit.className = 'page-credit';
+        credit.textContent = illustrationCredits[name] || '';
         const number = document.createElement('span');
         number.textContent = `${String(index).padStart(2, '0')} / ${String(selected.length).padStart(2, '0')}`;
-        caption.append(number);
+        caption.append(credit, number);
         front.append(img, caption);
       }
       const back = document.createElement('div');
@@ -158,8 +169,6 @@ async function loadImages() {
     });
     cards = [...galleryStage.children];
     gallery.style.height = `${Math.max(3, cards.length + .6) * 100}vh`;
-    const artImage = document.querySelector('.feature-image img');
-    artImage.src = imageUrl(files.find(name => !selected.includes(name)) || files[0]);
     scheduleScroll();
   } catch (error) {
     console.error(error);

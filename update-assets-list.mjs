@@ -2,7 +2,7 @@ import { readdir, writeFile } from 'node:fs/promises';
 import { extname } from 'node:path';
 
 const files = (await readdir(new URL('./assets/', import.meta.url), { withFileTypes: true }))
-  .filter(file => file.isFile() && file.name.toLowerCase() !== 'icon.png' && /^\.(png|jpe?g|webp|gif|avif)$/i.test(extname(file.name)))
+  .filter(file => file.isFile() && !['icon.png', 'contact.png'].includes(file.name.toLowerCase()) && /^\.(png|jpe?g|webp|gif|avif)$/i.test(extname(file.name)))
   .map(file => file.name)
   .sort((a, b) => a.localeCompare(b, 'ja', { numeric: true }));
 

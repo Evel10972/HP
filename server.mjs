@@ -9,7 +9,7 @@ createServer(async (request, response) => {
     const pathname = decodeURIComponent(new URL(request.url, 'http://localhost').pathname);
     if (pathname === '/api/assets') {
       const files = (await readdir(resolve(root, 'assets'), { withFileTypes: true }))
-        .filter(file => file.isFile() && file.name.toLowerCase() !== 'icon.png' && /^\.(png|jpe?g|webp|gif|avif)$/i.test(extname(file.name)))
+        .filter(file => file.isFile() && !['icon.png', 'contact.png'].includes(file.name.toLowerCase()) && /^\.(png|jpe?g|webp|gif|avif)$/i.test(extname(file.name)))
         .map(file => file.name)
         .sort((a, b) => a.localeCompare(b, 'ja', { numeric: true }));
       response.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' });

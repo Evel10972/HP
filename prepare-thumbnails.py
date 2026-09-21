@@ -9,7 +9,7 @@ output.mkdir(exist_ok=True)
 extensions = {".png", ".jpg", ".jpeg", ".webp", ".gif", ".avif"}
 
 for source in sorted(assets.iterdir()):
-    if not source.is_file() or source.name.lower() == "icon.png" or source.suffix.lower() not in extensions:
+    if not source.is_file() or source.name.lower() in {"icon.png", "contact.png"} or source.suffix.lower() not in extensions:
         continue
     target = output / f"{source.stem}.webp"
     if target.exists() and target.stat().st_mtime >= source.stat().st_mtime:

@@ -23,10 +23,10 @@ node server.mjs
 - `index.html`：文章、リンク、セクション、画像の代替テキスト
 - `style.css`：色、文字、余白、レスポンシブ表示、演出の見た目
 - `script.js`：メニュー、背景画像の横スクロール、スクロール連動のカード切り替え
-- `assets/`：背景に使う画像。対応形式は PNG、JPEG、WebP、GIF、AVIF です。`node server.mjs` では追加した画像が次の読み込みから自動で背景のローテーションに加わります
+- `assets/`：背景に使う画像。対応形式は PNG、JPEG、WebP、GIF、AVIF です。`icon.png` と Contact 用の `contact.png` は背景から除外します。`node server.mjs` では追加した画像が次の読み込みから自動で背景のローテーションに加わります
 - `assets-list.js`：HTMLを直接開く場合や静的ホスティングで使う画像一覧。画像の追加・削除後は `node update-assets-list.mjs` で更新します
 - `assets/thumbs/`：背景表示用の縮小画像。新しい画像を追加した後は、Pillow が使える Python で `python prepare-thumbnails.py` を実行すると生成できます。縮小画像がない場合は元画像を表示します
-- `script.js` の `illustrationFiles`：Illustration で紹介する5枚のファイル名を配列で指定します。空の間は名前順の先頭5枚を仮表示します
+- `script.js` の `illustrationFiles` と `illustrationCredits`：Illustration で紹介する5枚のファイル名と、それぞれの権利元を指定します
 
 ギャラリーは `gallery-section` の高さがスクロール演出の長さ、`script.js` の `progress` が進行度です。最初は「紹介」と書いた表紙が閉じており、めくると1枚目の作品が現れます。その後も右ページをめくって次の作品を表示し、前の作品は裏面に表示しません。
 
